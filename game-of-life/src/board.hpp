@@ -112,8 +112,11 @@ namespace game_of_life {
             }
 
             void next() {
-                std::bitset<width*height> n = Rules::next_state(_board);
-                std::swap(n, _board);
+                std::bitset<width*height> dest;
+                for (std::size_t i=0; i<width*height; ++i) {
+                    dest[i] = Rules::next_alive( alive_neighbours(i));
+                }
+                std::swap(dest, _board);
             }
 
         protected:

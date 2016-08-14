@@ -51,13 +51,6 @@ namespace game_of_life {
                 return (alive_neighbours == 2) || (alive_neighbours == 3);
             }
 
-            static std::bitset<width*height> next_state(const std::bitset<width*height>& origin) {
-                std::bitset<width*height> dest;
-                for (std::size_t i=0; i<width*height; ++i) {
-                    dest[i] = next_alive( count_alive(origin, neighbours(i)));
-                }
-                return dest;
-            }
     };
 
     template <std::size_t width, std::size_t height>
@@ -89,14 +82,6 @@ namespace game_of_life {
 
             static bool next_alive(std::size_t alive_neighbours) {
                 return (alive_neighbours == 2) || (alive_neighbours == 3);
-            }
-
-            static std::bitset<width*height> next_state(const std::bitset<width*height>& origin) {
-                std::bitset<width*height> dest;
-                for (std::size_t i=0; i<width*height; ++i) {
-                    dest[i] = next_alive( count_alive(origin, neighbours(i)));
-                }
-                return dest;
             }
 
     };
