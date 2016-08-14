@@ -3,6 +3,9 @@
 
 #include <tuple>
 #include <set>
+#include <bitset>
+#include <algorithm>
+
 #include "utils_tuple.hpp"
 #include "grid.h"
 
@@ -10,9 +13,12 @@
 namespace game_of_life {
 
     constexpr std::size_t no_neighbour = (std::size_t)-1;
-    //typedef utils::create_tuple<8, std::size_t>::type _t_neighbours;
     typedef std::set<std::size_t> _t_neighbours;
 
+    template <typename data>
+    std::size_t count_alive(const data& board, const _t_neighbours& neighbours) {
+        return std::count_if(neighbours.begin(), neighbours.end(), [&board](std::size_t idx) { return (idx != no_neighbour) && board[idx];});
+    }
 
     template <std::size_t width, std::size_t height>
     class RuleCornway {
@@ -39,6 +45,18 @@ namespace game_of_life {
                     // bottom-right
                     (N == (cell_count - 1)) ? (0) : ((N+1) % width == 0 ? (N+1) : (TGrid::is_bottom(N) ? (N + width - cell_count + 1) : (N+width+1)) )
                 };
+            }
+
+            static bool next_alive(std::size_t alive_neighbours) {
+                return (alive_neighbours == 2) || (alive_neighbours == 3);
+            }
+
+            static std::bitset<width*height> next_state(const std::bitset<width*height>& origin) {
+                std::bitset<width*height> dest;
+                for (std::size_t i=0; i<width*height; ++i) {
+                    dest[i] = next_alive( count_alive(origin, neighbours(i)));
+                }
+                return dest;
             }
     };
 
@@ -68,6 +86,19 @@ namespace game_of_life {
                     TGrid::is_bottom(N) ? no_neighbour : (TGrid::is_right(N) ? no_neighbour : (N+width+1))
                 };
             }
+
+            static bool next_alive(std::size_t alive_neighbours) {
+                return (alive_neighbours == 2) || (alive_neighbours == 3);
+            }
+
+            static std::bitset<width*height> next_state(const std::bitset<width*height>& origin) {
+                std::bitset<width*height> dest;
+                for (std::size_t i=0; i<width*height; ++i) {
+                    dest[i] = next_alive( count_alive(origin, neighbours(i)));
+                }
+                return dest;
+            }
+
     };
 
 }
