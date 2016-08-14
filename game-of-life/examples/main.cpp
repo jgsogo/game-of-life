@@ -39,7 +39,7 @@ int main() {
 
     {
         std::cout << "\nBOARD - RuleCornway" << std::endl;
-        typedef Board<width, height, RuleCornway, bool> CornwayBoard;
+        typedef Board<width, height, RuleCornway, int> CornwayBoard;
         CornwayBoard board(initial);
 
         for (std::size_t i = 0; i< 4; ++i) {
