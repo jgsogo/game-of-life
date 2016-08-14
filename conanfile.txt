@@ -1,0 +1,12 @@
+[requires]
+Boost/1.60.0@lasote/stable
+spdlog/0.9.0@memsharded/stable
+RapidJSON/1.0.2@SamuelMarks/stable
+
+[generators]
+cmake
+
+[imports]
+bin, *.dll -> ./bin
+lib, *.dylib* -> ./bin
+

@@ -1,4 +1,4 @@
-project(game-of-life)
+project(GameOfLife)
 cmake_minimum_required(VERSION 2.8.12)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -12,10 +12,19 @@ conan_basic_setup()
 # Files in subdirectories
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Include our cmake macros
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+include (CMakeHelpers)
+
+
 OPTION(SPDLOG_DEBUG_ON "Enable debug logging" OFF) # Disabled by default
 IF(SPDLOG_DEBUG_ON)
     ADD_DEFINITIONS(-DSPDLOG_DEBUG_ON)
 ENDIF(SPDLOG_DEBUG_ON)
+
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+#find_package(Boost COMPONENTS system filesystem REQUIRED)
 
 add_subdirectory(game-of-life)
 
@@ -35,6 +44,11 @@ if (BUILD_TEST)
     endif()
 
     #
-    add_subdirectory(tests)
+    include_subdirs("tests")  # Include all subdirs in given directory
+endif()
+
+option(BUILD_EXAMPLE "Build example" ON)
+if (BUILD_EXAMPLE)
+    include_subdirs("examples")  # Include all subdirs in given directory
 endif()
 
