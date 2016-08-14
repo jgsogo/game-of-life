@@ -32,11 +32,8 @@ int main() {
 
     std::cout << "\nBOARD - RuleCornway" << std::endl;
     typedef Board<4,4,RuleCornway, bool> CornwayBoard;
-    for (std::size_t i = 0; i<4; ++i) {
-        for (std::size_t j = 0; j<4; ++j) {
-            std::cout << CornwayBoard::count_neighbours(i*4 + j);
-        }
-        std::cout << std::endl;
-    }
-
+    CornwayBoard board;
+    board.print(std::cout);
+    std::cout << std::endl;
+    
 }
