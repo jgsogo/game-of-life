@@ -2,7 +2,6 @@
 #include <iostream>
 #include "../src/grid.h"
 #include "../src/rules.h"
-#include "../src/cell.hpp"
 #include "../src/board.hpp"
 
 using namespace game_of_life;
@@ -12,7 +11,7 @@ int main() {
     const std::size_t width = 8;
     const std::size_t height = 5;
 
-    typedef Grid<width,height> MyGrid;
+    typedef GridBase<width,height> MyGrid;
 
     for (std::size_t i = 0; i<height; ++i) {
         for (std::size_t j = 0; j<width; ++j) {
@@ -24,13 +23,13 @@ int main() {
         std::cout << std::endl;
     }
 
-    std::cout << "\nRuleCornway" << std::endl;
-    typedef RuleCornway<width,height> MyRules;
-    std::cout << MyRules::neighbours(2) << std::endl;
+    std::cout << "\nGridContinuous" << std::endl;
+    typedef GridContinuous<width,height> MyGridContinuous;
+    std::cout << MyGridContinuous::neighbours(2) << std::endl;
 
-    std::cout << "\nRuleFlatWorld" << std::endl;
-    typedef RuleFlatBoard<width,height> MyRuleFlatBoard;
-    std::cout << MyRuleFlatBoard::neighbours(2) << std::endl;
+    std::cout << "\nGridFlat" << std::endl;
+    typedef GridFlat<width,height> MyGridFlat;
+    std::cout << MyGridFlat::neighbours(2) << std::endl;
 
     std::bitset<width*height> initial;
     initial[0] = true;
@@ -38,9 +37,9 @@ int main() {
     initial[8] = true;
 
     {
-        std::cout << "\nBOARD - RuleCornway" << std::endl;
-        typedef Board<width, height, RuleCornway, int> CornwayBoard;
-        CornwayBoard board(initial);
+        std::cout << "\nGridFlat - RuleConway" << std::endl;
+        typedef Board<width, height, RuleCornway, GridFlat, int> ConwayFlatBoard;
+        ConwayFlatBoard board(initial);
 
         for (std::size_t i = 0; i< 4; ++i) {
             board.print(std::cout);
@@ -51,8 +50,8 @@ int main() {
     }
 
     {
-        std::cout << "\nBOARD - RuleFlatBoard" << std::endl;
-        typedef Board<width, height, RuleFlatBoard, bool> Board;
+        std::cout << "\nGridContinuous - RuleConway" << std::endl;
+        typedef Board<width, height, RuleCornway, GridContinuous, bool> Board;
         Board board(initial);
 
         for (std::size_t i = 0; i< 4; ++i) {

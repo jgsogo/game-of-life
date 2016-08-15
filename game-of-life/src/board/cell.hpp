@@ -2,16 +2,21 @@
 #pragma once
 
 #include <memory>
-#include "utils_tuple.hpp"
+#include <vector>
+#include <algorithm>
 
 
 namespace game_of_life {
 
-    template <std::size_t width, std::size_t height, template <std::size_t, std::size_t> class R, class T>
+    template <std::size_t width, std::size_t height,
+              class TRules,
+              template <std::size_t, std::size_t> class TGrid,
+              class T>
     class Cell {
+        using TCell = Cell<width, height, TRules, TGrid, T>;
         public:
-            typedef R<width, height> Rules;
-            typedef typename Rules::TGrid Grid;
+            typedef TRules Rules;
+            typedef TGrid<width, height> Grid;
 
             const bool is_top;
             const bool is_bottom;
@@ -29,18 +34,18 @@ namespace game_of_life {
             };
             virtual ~Cell() {};
 
-            static std::shared_ptr<Cell<width, height, R, T>> make_shared(std::size_t i, bool alive=false) {
-                return std::make_shared<Cell<width, height, R, T>>(i, alive);
+            static std::shared_ptr<TCell> make_shared(std::size_t i, bool alive=false) {
+                return std::make_shared<TCell>(i, alive);
             }
 
-            void initialize(const std::vector<std::shared_ptr<Cell<width, height, R, T>>>& board) {
-                for (auto n: Rules::neighbours(_idx)) {
+            void initialize(const std::vector<std::shared_ptr<TCell>>& board) {
+                for (auto n: Grid::neighbours(_idx)) {
                     _neighbours.push_back(board[n]);
                 }
             }
 
             std::size_t alive_neighbours() const {
-                return std::count_if(_neighbours.begin(), _neighbours.end(), [](const std::shared_ptr<Cell<width, height, R, T>>& item) {
+                return std::count_if(_neighbours.begin(), _neighbours.end(), [](const std::shared_ptr<TCell>& item) {
                     return item->is_alive();
                 });
             }
@@ -50,7 +55,7 @@ namespace game_of_life {
             }
 
             void next() {
-                _is_alive = Rules::next_alive(alive_neighbours());
+                _is_alive = Rules::next_alive(_is_alive, alive_neighbours());
             }
 
             void print(std::ostream& os) const {
@@ -60,7 +65,7 @@ namespace game_of_life {
             std::size_t _idx;
             bool _is_alive;
             T _data;
-            std::vector<std::shared_ptr<Cell<width, height, R, T>>> _neighbours;
+            std::vector<std::shared_ptr<TCell>> _neighbours;
     };
 
 }
