@@ -22,14 +22,15 @@ namespace game_of_life {
             Board(const std::bitset<width*height>& board) {
                 initialize(board);
             };
+
             virtual ~Board() {};
 
             std::size_t alive_population() const {
-                return std::count_if(_board.begin(), _board.end(), [](auto& item) { return item->is_alive();});
+                return std::count_if(_board.begin(), _board.end(), [](auto& item) { return item.is_alive();});
             }
 
             std::size_t alive_neighbours(std::size_t N) const {
-                return _board[N]->alive_neighbours();
+                return _board[N].alive_neighbours();
             }
 
             virtual std::ostream& print(std::ostream& os) const {
@@ -39,26 +40,29 @@ namespace game_of_life {
 
             void next() {
                 for (std::size_t i=0; i<width*height; ++i) {
-                    _board[i]->next();
+                    _board[i].next();
                 }
+            }
+
+            std::bitset<width*height> get_state() const {
+                return _board;
             }
 
         protected:
             void initialize(const std::bitset<width*height>& board) {
                 // Create board
-                _board.resize(width*height);
                 for (std::size_t i=0; i<width*height; ++i) {
-                    _board[i] = CellType::make_shared(i, board[i]);
+                    _board[i] = CellType::build(i, board[i]);
                 }
 
                 // Let the cells store data about its neighbours
                 for (std::size_t i=0; i<width*height; ++i) {
-                    _board[i]->initialize(_board);
+                    _board[i].initialize(_board);
                 }
             }
 
         protected:
-            std::vector<std::shared_ptr<CellType>> _board;
+            std::array<CellType, width*height> _board;
     };
 
 }

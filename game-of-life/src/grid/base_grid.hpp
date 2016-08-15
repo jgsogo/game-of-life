@@ -35,7 +35,7 @@ namespace game_of_life {
 
 }
 
-template<class Ch, class Tr, class... Args>
+template<class Ch, class Tr>
 auto operator<<(std::basic_ostream<Ch, Tr>& os, const game_of_life::_t_neighbours& t)
     -> std::basic_ostream<Ch, Tr>& {
     os << "{";

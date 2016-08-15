@@ -9,7 +9,6 @@ namespace game_of_life {
             static bool next_alive(bool me_alive, std::size_t alive_neighbours) {
                 return me_alive;
             }
-
     };
 
 }

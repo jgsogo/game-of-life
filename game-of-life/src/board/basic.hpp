@@ -45,6 +45,10 @@ namespace game_of_life {
                 std::swap(dest, _board);
             }
 
+            std::bitset<width*height> get_state() const {
+                return _board;
+            }
+
         protected:
             std::bitset<width*height> _board;
     };
