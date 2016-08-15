@@ -10,3 +10,6 @@ target_link_libraries(game_of_life
                       gameoflife
                       ${Boost_LIBRARIES}
                       Threads::Threads)
+
+
+add_subdirectory(qt)
