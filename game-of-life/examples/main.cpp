@@ -44,7 +44,8 @@ int main() {
 
         for (std::size_t i = 0; i< 4; ++i) {
             board.print(std::cout);
-            std::cout << std::endl << std::endl;
+            std::cout << std::endl;
+            std::cout << board.alive_population() << std::endl << std::endl;
             board.next();
         }
     }
@@ -56,7 +57,8 @@ int main() {
 
         for (std::size_t i = 0; i< 4; ++i) {
             board.print(std::cout);
-            std::cout << std::endl << std::endl;
+            std::cout << std::endl;
+            std::cout << board.alive_population() << std::endl << std::endl;
             board.next();
         }
     }

@@ -6,16 +6,6 @@
 
 
 namespace game_of_life {
-/*
-    template <std::size_t N, std::size_t width, std::size_t height>
-    struct Cell {
-        static constexpr int cell_count = width*height;
-        static constexpr bool is_top = N < cell_count;
-        static constexpr bool is_bottom = (N + width) >= cell_count;
-        static constexpr bool is_left = N % width == 0;
-        static constexpr bool is_right = (N + 1) % width == 0;
-    };
-*/
 
     template <std::size_t width, std::size_t height, template <std::size_t, std::size_t> class R, class T>
     class Cell {
@@ -44,8 +34,7 @@ namespace game_of_life {
             }
 
             void initialize(const std::vector<std::shared_ptr<Cell<width, height, R, T>>>& board) {
-                auto neighbours = Rules::neighbours(_idx);
-                for (auto n: neighbours) {
+                for (auto n: Rules::neighbours(_idx)) {
                     _neighbours.push_back(board[n]);
                 }
             }

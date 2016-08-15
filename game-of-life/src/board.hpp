@@ -44,6 +44,7 @@ namespace game_of_life {
 
     }
 
+
     template <std::size_t width, std::size_t height, template <std::size_t, std::size_t> class R, typename T>
     class Board {
         public:
@@ -58,6 +59,10 @@ namespace game_of_life {
                 initialize(board);
             };
             virtual ~Board() {};
+
+            std::size_t alive_population() const {
+                return std::count_if(_board.begin(), _board.end(), [](auto& item) { return item->is_alive();});
+            }
 
             std::size_t alive_neighbours(std::size_t N) const {
                 return _board[N]->alive_neighbours();
@@ -101,6 +106,10 @@ namespace game_of_life {
             Board() {};
             Board(const std::bitset<width*height>& board) : _board(board) {};
             virtual ~Board() {};
+
+            std::size_t alive_population() const {
+                return _board.count();
+            }
 
             std::size_t alive_neighbours(std::size_t N) const {
                 return count_alive(_board, Rules::neighbours(N));

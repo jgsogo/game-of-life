@@ -60,7 +60,7 @@ namespace game_of_life {
             static constexpr int cell_count = width*height;
 
             static constexpr _t_neighbours neighbours(std::size_t N) {
-                return {
+                _t_neighbours r{
                     // left
                     TGrid::is_left(N) ? no_neighbour : (N-1),
                     // right
@@ -78,6 +78,8 @@ namespace game_of_life {
                     // bottom-right
                     TGrid::is_bottom(N) ? no_neighbour : (TGrid::is_right(N) ? no_neighbour : (N+width+1))
                 };
+                r.erase(no_neighbour);
+                return r;
             }
 
             static bool next_alive(std::size_t alive_neighbours) {
