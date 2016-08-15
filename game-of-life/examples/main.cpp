@@ -38,7 +38,7 @@ int main() {
 
     {
         std::cout << "\nGridFlat - RuleConway" << std::endl;
-        typedef Board<width, height, RuleCornway, GridFlat, int> ConwayFlatBoard;
+        typedef Board<width, height, RuleConway, GridFlat, int> ConwayFlatBoard;
         ConwayFlatBoard board(initial);
 
         for (std::size_t i = 0; i< 4; ++i) {
@@ -51,7 +51,7 @@ int main() {
 
     {
         std::cout << "\nGridContinuous - RuleConway" << std::endl;
-        typedef Board<width, height, RuleCornway, GridContinuous, bool> Board;
+        typedef Board<width, height, RuleConway, GridContinuous, bool> Board;
         Board board(initial);
 
         for (std::size_t i = 0; i< 4; ++i) {
