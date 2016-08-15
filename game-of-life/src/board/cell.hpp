@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
-
+#include <iomanip>
 
 namespace game_of_life {
 
@@ -21,7 +21,7 @@ namespace game_of_life {
             typedef TGrid<width, height> Grid;
 
         public:
-            Cell() {};
+            Cell() {};  // TODO: Remove this default constructor. All cells must have an index.
             Cell(const Cell& other) :
                 _idx(other._idx),
                 _is_alive(other._is_alive) {
@@ -57,7 +57,7 @@ namespace game_of_life {
             }
 
             void print(std::ostream& os) const {
-                os << (_is_alive ? "X" : "0");
+                os << std::setw(3) << (_is_alive ? " X " : " 0 ");
             }
         protected:
             std::size_t _idx;
