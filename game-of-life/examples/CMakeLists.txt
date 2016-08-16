@@ -7,7 +7,7 @@ add_executable(game_of_life main.cpp
 target_include_directories(game_of_life PUBLIC ${CONAN_INCLUDE_DIRS_GAME-OF-LIFE})
 target_link_libraries(game_of_life
                       ${CONAN_LIBS}
-                      gameoflife
+                      # gameoflife
                       ${Boost_LIBRARIES}
                       Threads::Threads)
 

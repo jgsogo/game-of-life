@@ -15,7 +15,7 @@ namespace game_of_life {
             using GridBase<width, height>::is_left;
             using GridBase<width, height>::is_right;
 
-            static constexpr _t_neighbours neighbours(std::size_t N) {
+            static _t_neighbours neighbours(std::size_t N) {
                 _t_neighbours r{
                     // left
                     is_left(N) ? no_neighbour : (N-1),
