@@ -10,7 +10,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-add_library(mainwindow mainwindow.cpp)
+add_library(mainwindow mainwindow.cpp glwidget.cpp helper.cpp widget.cpp)
 target_link_libraries (mainwindow Qt5::Widgets)
 
 add_executable(MyProject main.cpp)
