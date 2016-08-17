@@ -6,7 +6,8 @@
 
 GLWidget::GLWidget(Helper *helper, QWidget *parent) : QOpenGLWidget(parent), helper(helper) {
     elapsed = 0;
-    setFixedSize(200, 200);
+    setMinimumSize(200, 200);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setAutoFillBackground(false);
 }
 
@@ -19,6 +20,6 @@ void GLWidget::paintEvent(QPaintEvent *event) {
     QPainter painter;
     painter.begin(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    helper->paint(&painter, event, elapsed);
+    helper->paint(&painter, event, elapsed, -1);
     painter.end();
 }

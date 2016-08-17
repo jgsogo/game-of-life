@@ -6,7 +6,8 @@
 
 Widget::Widget(Helper *helper, QWidget *parent) : QWidget(parent), helper(helper) {
     elapsed = 0;
-    setFixedSize(200, 200);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setMinimumSize(200, 200);
 }
 
 void Widget::animate() {
@@ -18,6 +19,6 @@ void Widget::paintEvent(QPaintEvent *event) {
     QPainter painter;
     painter.begin(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    helper->paint(&painter, event, elapsed);
+    helper->paint(&painter, event, elapsed, 1);
     painter.end();
 }

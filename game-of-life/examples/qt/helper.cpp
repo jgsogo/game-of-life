@@ -18,7 +18,7 @@ Helper::Helper()
     textFont.setPixelSize(50);
 }
 
-void Helper::paint(QPainter *painter, QPaintEvent *event, int elapsed)
+void Helper::paint(QPainter *painter, QPaintEvent *event, int elapsed, int dir)
 {
     painter->fillRect(event->rect(), background);
     painter->translate(100, 100);
@@ -26,12 +26,12 @@ void Helper::paint(QPainter *painter, QPaintEvent *event, int elapsed)
     painter->save();
     painter->setBrush(circleBrush);
     painter->setPen(circlePen);
-    painter->rotate(elapsed * 0.030);
+    painter->rotate(elapsed * 0.030 * dir);
 
     qreal r = elapsed / 1000.0;
     int n = 30;
-    for (int i = 0; i < n; ++i) {
-        painter->rotate(30);
+    for (int i = 0; i < 60; ++i) {
+        painter->rotate(30 * dir);
         qreal factor = (i + r) / n;
         qreal radius = 0 + 120.0 * factor;
         qreal circleRadius = 1 + factor * 20;

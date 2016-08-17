@@ -11,7 +11,7 @@ class Helper {
         Helper();
 
     public:
-        void paint(QPainter *painter, QPaintEvent *event, int elapsed);
+        void paint(QPainter *painter, QPaintEvent *event, int elapsed, int dir = 1);
 
     private:
         QBrush background;
