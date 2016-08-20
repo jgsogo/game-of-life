@@ -27,6 +27,7 @@ find_package(Threads REQUIRED)
 #find_package(Boost COMPONENTS system filesystem REQUIRED)
 
 add_subdirectory(engine)
+add_subdirectory(desktop)
 
 option(BUILD_TEST "Build test" OFF)
 if (BUILD_TEST)

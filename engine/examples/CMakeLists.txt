@@ -12,4 +12,3 @@ target_link_libraries(game_of_life
                       Threads::Threads)
 
 
-add_subdirectory(qt)
