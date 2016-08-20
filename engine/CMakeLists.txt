@@ -14,3 +14,7 @@ set_target_properties(gameoflife PROPERTIES LINKER_LANGUAGE CXX)
 
 
 add_subdirectory(examples)
+
+if (BUILD_TESTS)
+    add_subdirectory(tests)
+endif()

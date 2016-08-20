@@ -24,13 +24,10 @@ ENDIF(SPDLOG_DEBUG_ON)
 
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
-#find_package(Boost COMPONENTS system filesystem REQUIRED)
 
-add_subdirectory(engine)
-add_subdirectory(desktop)
 
-option(BUILD_TEST "Build test" OFF)
-if (BUILD_TEST)
+option(BUILD_TESTS "Build test" OFF)
+if (BUILD_TESTS)
     # Testing
     enable_testing()
     if (UNIX)
@@ -44,12 +41,19 @@ if (BUILD_TEST)
                           WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
     endif()
 
-    #
-    include_subdirs("tests")  # Include all subdirs in given directory
+    find_package (Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
+    include_directories (${Boost_INCLUDE_DIRS})
+
+    # Let's look for all test directories (they have to be called 'tests')!
+    message(${CMAKE_CURRENT_SOURCE_DIR})
+    file (GLOB_RECURSE MATCHED_ITEMS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*/tests/CMakeLists.txt" "*/*/tests/CMakeLists.txt")
+    foreach (ITEM ${MATCHED_ITEMS})
+        string(REGEX REPLACE "/CMakeLists.txt" "" ITEM ${ITEM})
+        message("Add tests in ${CMAKE_CURRENT_SOURCE_DIR}/${ITEM}")
+        # add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/${ITEM}")
+    endforeach()
 endif()
 
-option(BUILD_EXAMPLE "Build example" ON)
-if (BUILD_EXAMPLE)
-    include_subdirs("examples")  # Include all subdirs in given directory
-endif()
+add_subdirectory(engine)
+add_subdirectory(desktop)
 
