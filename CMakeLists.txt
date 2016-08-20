@@ -26,7 +26,7 @@ set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 #find_package(Boost COMPONENTS system filesystem REQUIRED)
 
-add_subdirectory(game-of-life)
+add_subdirectory(engine)
 
 option(BUILD_TEST "Build test" OFF)
 if (BUILD_TEST)
