@@ -56,4 +56,5 @@ endif()
 
 add_subdirectory(engine)
 add_subdirectory(desktop)
+add_subdirectory(dynamics)
 
