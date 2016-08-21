@@ -10,10 +10,10 @@ namespace dynamics {
     template <std::size_t NDimensions>
     class Spring : public Actuator<NDimensions> {
         using TActuator = Actuator<NDimensions>;
-        using TMass = Mass<NDimensions>;
+        using TMass = typename TActuator::TMass;
         using TVector = vector<NDimensions>;
         public:
-            Spring(const TMass& lhs, const TMass& rhs) : TActuator(lhs, rhs) {}
+            Spring(TMass& lhs, TMass& rhs) : TActuator(lhs, rhs) {}
 
             ~Spring() {}
 
@@ -27,8 +27,10 @@ namespace dynamics {
                 _length = length;
             }
 
-            virtual void _compute() {
-
+            virtual void compute(float delta_t) {
+                float x = length(TActuator::_rh_mass.get_position() - TActuator::_lh_mass.get_position());
+                TActuator::_rh_force->set(_stiffness*x);
+                TActuator::_lh_force->set(_stiffness*-x);
             }
 
         protected:

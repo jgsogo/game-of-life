@@ -27,8 +27,9 @@ namespace dynamics {
                 return _speed;
             }
 
-            void compute();
-            void update();
+            void add_force(std::shared_ptr<TForce> force);
+
+            virtual void compute(float delta_t);
 
             virtual void print(std::ostream& os) const {
                 os << "Mass " << NDimensions << "D (" << _mass << "u):\n";
@@ -41,7 +42,8 @@ namespace dynamics {
             TVector _position;
             TVector _speed;
 
-            std::vector<TForce> _forces;
+        private:
+            std::vector<std::shared_ptr<TForce>> _forces;
     };
 
     template <std::size_t NDimensions>
@@ -54,8 +56,7 @@ namespace dynamics {
 
             ~MassFixed() {};
 
-            void compute() {};
-            void update() {};
+            virtual void compute(float delta_t) {};
 
             virtual void print(std::ostream& os) const {
                 os << "MassFixed " << NDimensions << "D:\n";

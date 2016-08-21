@@ -10,8 +10,9 @@ namespace dynamics {
     template <std::size_t NDimensions>
     class Dumper : public Actuator<NDimensions> {
         using TActuator = Actuator<NDimensions>;
+        using TMass = typename TActuator::TMass;
         public:
-            Dumper(const Mass& lhs, const Mass& rhs) : TActuator(lhs, rhs) {}
+            Dumper(TMass& lhs, TMass& rhs) : TActuator(lhs, rhs) {}
 
             ~Dumper() {}
 
@@ -21,6 +22,12 @@ namespace dynamics {
 
             void initialize(float damping) {
                 _damping.fill(damping);
+            }
+
+            virtual void compute(float delta_t) {
+                auto diffv = TActuator::_rh_mass.get_speed() - TActuator::_lh_mass.get_speed();
+                TActuator::_rh_force->set(-_damping*diffv);
+                TActuator::_lh_force->set( _damping*diffv);
             }
 
         protected:

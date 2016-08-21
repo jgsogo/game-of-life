@@ -2,27 +2,27 @@
 #pragma once
 
 #include "mass.h"
+#include "force.hpp"
 
 namespace dynamics {
 
     template <std::size_t NDimensions>
     class Actuator {
-        using TMass = Mass<NDimensions>;
+        protected:
+            using TMass = Mass<NDimensions>;
+            using TForce = Force<NDimensions>;
+
         public:
-            Actuator(const TMass& lhs, const TMass& rhs);
+            Actuator(TMass& lhs, TMass& rhs);
             virtual ~Actuator();
 
-            void compute();
-            virtual void update();
-
-        protected:
-            virtual void _compute() = 0;
+            virtual void compute(float delta_t) = 0;
 
         protected:
             const TMass& _lh_mass;
             const TMass& _rh_mass;
-            std::array<float, NDimensions> _lh_force;
-            std::array<float, NDimensions> _rh_force;
+            std::shared_ptr<TForce> _lh_force;
+            std::shared_ptr<TForce> _rh_force;
     };
 
 }
