@@ -17,24 +17,28 @@ namespace dynamics {
 
             ~Spring() {}
 
-            void initialize(float length, const TVector& stiffness) {
+            void initialize(float length, float stiffness) {
                 _stiffness = stiffness;
                 _length = length;
             }
 
-            void initialize(float length, float stiffness) {
-                _stiffness.fill(stiffness);
-                _length = length;
-            }
-
             virtual void compute(float delta_t) {
-                float x = length(TActuator::_rh_mass.get_position() - TActuator::_lh_mass.get_position());
-                TActuator::_rh_force->set(_stiffness*x);
-                TActuator::_lh_force->set(_stiffness*-x);
+                auto u = TActuator::_rh_mass.get_position() - TActuator::_lh_mass.get_position();
+                auto len_u = length(u);
+                if (len_u > .001f) {
+                    float force = (_length - len_u)*_stiffness;
+                    auto v_unitario = u/len_u;
+                    TActuator::_rh_force->set(v_unitario*force);
+                    TActuator::_lh_force->set(v_unitario*-force);
+                }
+                else {
+                    TActuator::_rh_force->set(TVector{});
+                    TActuator::_lh_force->set(TVector{});
+                }
             }
 
         protected:
-            TVector _stiffness;
+            float _stiffness;
             float _length;
     };
 

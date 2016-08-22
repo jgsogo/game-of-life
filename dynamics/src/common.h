@@ -20,6 +20,13 @@ namespace dynamics {
     }
 
     template <std::size_t NDimensions>
+    float dot_product(vector<NDimensions>& lhs, const vector<NDimensions>& rhs) {
+        vector<NDimensions> ret = lhs*rhs;
+        float s = std::accumulate(ret.begin(), ret.end(), .0f);
+        return s/(length(lhs)*length(rhs));
+    }
+
+    template <std::size_t NDimensions>
     vector<NDimensions>& operator+=(vector<NDimensions>& lhs, const vector<NDimensions>& rhs) {
         std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), std::plus<float>());
         return lhs;
@@ -50,6 +57,13 @@ namespace dynamics {
     vector<NDimensions> operator*(const vector<NDimensions>& lhs, float rhs) {
         vector<NDimensions> ret;
         std::transform(lhs.begin(), lhs.end(), ret.begin(), [rhs](float item){ return item*rhs;});
+        return ret;
+    }
+
+    template <std::size_t NDimensions>
+    vector<NDimensions> operator/(const vector<NDimensions>& lhs, float rhs) {
+        vector<NDimensions> ret;
+        std::transform(lhs.begin(), lhs.end(), ret.begin(), [rhs](float item){ return item/rhs;});
         return ret;
     }
 
