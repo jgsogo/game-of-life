@@ -13,7 +13,7 @@ int main() {
     // 1D system
     float mass = 1.f;
     float stiffness = 1.f;
-    float damping = std::sqrt(4*stiffness*mass)*0.5f; // Underdamped
+    float damping = std::sqrt(4*stiffness*mass)*0.4f; // Underdamped
 
     using System1D = dynamics::System<1>;
     System1D mySystem;
@@ -36,7 +36,7 @@ int main() {
             std::cout << m1.get_position()[0] << "\t\t" << m2.get_position()[0] << std::endl;
         }
         mySystem.compute(delta_t);
-        error = dynamics::length(m1.get_position());
+        error = dynamics::length(m1.get_speed());
     }
 
 }
